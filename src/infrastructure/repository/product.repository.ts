@@ -3,7 +3,7 @@ import Product from "../../domain/entity/product";
 import ProductModel from "../db/sequelize/model/product.model";
 
 export default class ProductRepository implements ProductRepositoryInterface {
-    create(entity: Product): Promise<void> {
+    async create(entity: Product): Promise<void> {
         await ProductModel.create({
             id: entity.id,
             name: entity.name,
@@ -11,15 +11,29 @@ export default class ProductRepository implements ProductRepositoryInterface {
         });
     }
 
-    find(id: string): Promise<Product> {
-        return Promise.resolve(undefined);
+    async find(id: string): Promise<Product> {
+        const productModel = await ProductModel.findOne({where: {id}});
+
+        return new Product(
+            productModel.id,
+            productModel.name,
+            productModel.price
+        );
     }
 
-    findAll(): Promise<Product[]> {
-        return Promise.resolve([]);
+    async findAll(): Promise<Product[]> {
+        return (await ProductModel.findAll())
+            .map((productModel) => new Product(productModel.id, productModel.name, productModel.price));
     }
 
-    update(entity: Product): Promise<void> {
-        return Promise.resolve(undefined);
+    async update(entity: Product): Promise<void> {
+        await ProductModel.update({
+                name: entity.name,
+                price: entity.price
+            },
+            {
+                where: { id: entity.id},
+            }
+        );
     }
 }
