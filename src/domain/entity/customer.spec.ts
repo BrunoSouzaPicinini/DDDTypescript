@@ -6,7 +6,7 @@ describe("Customer unit tests", () => {
     it("shold throw error when id is empty", () => {
 
         expect(() => {
-            let customer = new Customer("", "John")
+            const customer = new Customer("", "John")
         })
             .toThrowError("Id is required");
     });
@@ -14,7 +14,7 @@ describe("Customer unit tests", () => {
     it("shold throw error when name is empty", () => {
 
         expect(() => {
-            let customer = new Customer("123", "")
+            const customer = new Customer("123", "")
         })
             .toThrowError("Name is required");
     });
@@ -29,7 +29,7 @@ describe("Customer unit tests", () => {
     it("should activate customer", () => {
         const customer = new Customer("1", "Customer 1");
         const address = new Address("Street 1", 123, "13330-250", "São Paulo");
-        customer.Address = address;
+        customer.changeAddress(address);
         customer.activate();
 
         expect(customer.isActive()).toBe(true);
@@ -38,7 +38,7 @@ describe("Customer unit tests", () => {
     it("should deactivate customer", () => {
         const customer = new Customer("1", "Customer 1");
         const address = new Address("Street 1", 123, "13330-250", "São Paulo");
-        customer.Address = address;
+        customer.changeAddress(address);
         customer.deactivate();
 
         expect(customer.isActive()).toBe(false);
