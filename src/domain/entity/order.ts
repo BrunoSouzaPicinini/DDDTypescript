@@ -27,6 +27,14 @@ export default class Order {
         return this._customerId;
     }
 
+    addItem(item: OrderItem): void {
+        if(item == null) {
+            throw new Error("Item is required");
+        }
+        this._items.push(item);
+        this._total = this.total();
+    }
+
     validate(): boolean {
         if (this._id.length === 0) {
             throw new Error("Id is required");
